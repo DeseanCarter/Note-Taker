@@ -2,7 +2,7 @@
 let express = require("express");
 let path = require("path");
 let fs = require('fs');
-const { json } = require("express");
+
 
 // Express and Port Number
 var app = express();
@@ -58,15 +58,15 @@ app.post("/api/notes", function(req, res) {
 //Deletes
 app.delete("/api/notes/:id", function(req,res){
     let id = req.params.id;
-    fs.readFile("./db/db.json", 'utf-8',(err,data)=>{
+    fs.readFile("./db/db.json", 'utf-8',(err,data) => {
       let notesArray = JSON.parse(data)
       
-      for (let i=0; i < notesArray.length; i++){
+      for (let i=0; i < notesArray.length; i++) {
         if (notesArray.id !== id){
           notesArray.splice(i, 1)
           }
         }
-        fs.writeFile("./db/db.json", JSON.stringify(notesArray), ()=>{})
+        fs.writeFile("./db/db.json", JSON.stringify(notesArray), () => {})
         res.json(notesArray)
       });
     })
