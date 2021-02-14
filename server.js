@@ -2,7 +2,7 @@
 let express = require("express");
 let path = require("path");
 let fs = require('fs');
-const { json } = require("express");
+
 
 // Express and Port Number
 var app = express();
@@ -17,27 +17,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Gets
 app.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname, "./public/index.html"));
+    res.sendFile(path.join(__dirname, "./Develop/public/index.html"));
   });
 
 app.get("/index", function(req, res) {
-    res.sendFile(path.join(__dirname, "./public/index.html"));
+    res.sendFile(path.join(__dirname, "./Develop/public/index.html"));
   });
 
 app.get("/notes", function(req, res) {
-    res.sendFile(path.join(__dirname, "./public/notes.html"));
+    res.sendFile(path.join(__dirname, "./Develop/public/notes.html"));
   });
 
 app.get("/api/notes", function(req, res) {
-    res.sendFile(path.join(__dirname, "./db/db.json"));
+    res.sendFile(path.join(__dirname, "./Develop/db/db.json"));
   });
 
 app.get("public/assets/js/index.js", function(req, res) {
-    res.sendFile(path.join(__dirname, "./assets/js/index.js"));
+    res.sendFile(path.join(__dirname, "./Develop/public/assets/js/index.js"));
   });
 
 app.get("/public/assets/css/styles.css", function(req, res) {
-    res.sendFile(path.join(__dirname, "./assets/css/styles.css"));
+    res.sendFile(path.join(__dirname, "./Develop/public/assets/css/styles.css"));
   });
 
 //Post
