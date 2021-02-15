@@ -8,49 +8,51 @@ let fs = require('fs');
 var app = express();
 var PORT = process.env.PORT || 8080;
 
-//Data Parsing
+// Data Parsing Using Express
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, './Develop/public')));
 
-//Routes
+// Routes
 
-//Gets
+// Gets
+
+// Home Page - Index
 app.get("/", function(req, res) {
     res.sendFile(path.join(__dirname, "./Develop/public/index.html"));
   });
-
+// Home Page
 app.get("/index", function(req, res) {
     res.sendFile(path.join(__dirname, "./Develop/public/index.html"));
   });
-
+// Notes Page
 app.get("/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "./Develop/public/notes.html"));
   });
-
+// DB.json
 app.get("/api/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "./Develop/db/db.json"));
   });
-
+// Index.js
 app.get("public/assets/js/index.js", function(req, res) {
     res.sendFile(path.join(__dirname, "./Develop/public/assets/js/index.js"));
   });
-
+// CSS Page
 app.get("/public/assets/css/styles.css", function(req, res) {
     res.sendFile(path.join(__dirname, "./Develop/public/assets/css/styles.css"));
   });
 
 //Post
 app.post("/api/notes", function(req, res) {
-    let newNote = req.body;
-    console.log(newNote);
-    newNote.id = newNote.title.replace(/\s+/g, "").toLowerCase()
+    let createNote = req.body;
+    console.log(createNote);
+    createNote.id = createNote.title.replace(/\s+/g, "").toLowerCase()
     fs.readFile("./Develop/db/db.json", 'utf-8',(err,data) => {
-      let oldNote = JSON.parse(data)
+      let previousNote = JSON.parse(data)
       //console.log(oldNote)
-      oldNote.push(newNote)
-      fs.writeFile("./Develop/db/db.json", JSON.stringify(oldNote), () => {})
-      res.json(newNote);
+      previousNote.push(createNote)
+      fs.writeFile("./Develop/db/db.json", JSON.stringify(previousNote), () => {})
+      res.json(createNote);
     })
 
   });
@@ -60,14 +62,14 @@ app.delete("/api/notes/:id", function(req,res){
     let id = req.params.id;
     fs.readFile("./Develop/db/db.json", 'utf-8',(err,data) => {
       if (err) throw err
-      let notesArray = JSON.parse(data)
-      for (let i=0; i < notesArray.length; i++) {
-        if (notesArray.id !== id) {
-          notesArray.splice(id, 1)
+      let notesQueue = JSON.parse(data)
+      for (let i=0; i < notesQueue.length; i++) {
+        if (notesQueue.id !== id) {
+          notesQueue.splice(id, 1)
           }
       }
-      fs.writeFile("./Develop/db/db.json", JSON.stringify(notesArray), () => {})
-        res.json(notesArray)
+      fs.writeFile("./Develop/db/db.json", JSON.stringify(notesQueue), () => {})
+        res.json(notesQueue)
       });
     })
     
