@@ -13,9 +13,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, './Develop/public')));
 
-// Routes
+// Creating Routes
 
-// Gets
+// Get Requests
 
 // Home Page - Index
 app.get("/", function(req, res) {
@@ -42,7 +42,7 @@ app.get("/public/assets/css/styles.css", function(req, res) {
     res.sendFile(path.join(__dirname, "./Develop/public/assets/css/styles.css"));
   });
 
-//Post
+// Post Requests
 app.post("/api/notes", function(req, res) {
     let createNote = req.body;
     console.log(createNote);
@@ -54,10 +54,9 @@ app.post("/api/notes", function(req, res) {
       fs.writeFile("./Develop/db/db.json", JSON.stringify(previousNote), () => {})
       res.json(createNote);
     })
-
   });
 
-//Deletes
+// Deletes
 app.delete("/api/notes/:id", function(req,res){
     let id = req.params.id;
     fs.readFile("./Develop/db/db.json", 'utf-8',(err,data) => {
@@ -73,12 +72,7 @@ app.delete("/api/notes/:id", function(req,res){
       });
     })
     
-
-  
-
-
-
-  //Start server listening
+  // Start Server
   app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });
