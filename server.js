@@ -11,7 +11,7 @@ var PORT = process.env.PORT || 8080;
 //Data Parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, './Develop/public')));
 
 //Routes
 
@@ -45,11 +45,11 @@ app.post("/api/notes", function(req, res) {
     let newNote = req.body;
     console.log(newNote);
     newNote.id = newNote.title.replace(/\s+/g, "").toLowerCase()
-    fs.readFile("./db/db.json", 'utf-8',(err,data) => {
+    fs.readFile("./Develop/db/db.json", 'utf-8',(err,data) => {
       let oldNote = JSON.parse(data)
       //console.log(oldNote)
       oldNote.push(newNote)
-      fs.writeFile("./db/db.json", JSON.stringify(oldNote), () => {})
+      fs.writeFile("./Develop/db/db.json", JSON.stringify(oldNote), () => {})
       res.json(newNote);
     })
 
@@ -58,15 +58,15 @@ app.post("/api/notes", function(req, res) {
 //Deletes
 app.delete("/api/notes/:id", function(req,res){
     let id = req.params.id;
-    fs.readFile("./db/db.json", 'utf-8',(err,data) => {
+    fs.readFile("./Develop/db/db.json", 'utf-8',(err,data) => {
+      if (err) throw err
       let notesArray = JSON.parse(data)
-      
       for (let i=0; i < notesArray.length; i++) {
-        if (notesArray.id !== id){
-          notesArray.splice(i, 1)
+        if (notesArray.id !== id) {
+          notesArray.splice(id, 1)
           }
-        }
-        fs.writeFile("./db/db.json", JSON.stringify(notesArray), () => {})
+      }
+      fs.writeFile("./Develop/db/db.json", JSON.stringify(notesArray), () => {})
         res.json(notesArray)
       });
     })
